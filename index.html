@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Misión Cuerpo Humano</title>
+  <style>
+    :root{
+      --bg:#e8f7ff; --card:#ffffff; --ink:#213547; --muted:#64748b;
+      --blue:#2f80ed; --green:#27ae60; --red:#eb5757; --yellow:#f2c94c;
+      --purple:#9b51e0; --orange:#f2994a; --shadow:0 14px 35px rgba(31,77,115,.18);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:
+      radial-gradient(circle at 12% 15%,#fff 0 0.7rem,transparent .75rem),
+      radial-gradient(circle at 86% 22%,#fff 0 0.55rem,transparent .6rem),
+      linear-gradient(135deg,#e9fbff,#f6f1ff 55%,#fff7de);min-height:100vh}
+    button{font:inherit;border:0;border-radius:16px;padding:12px 18px;cursor:pointer;font-weight:800;transition:.16s transform,.16s filter;box-shadow:0 8px 0 rgba(0,0,0,.12)}
+    button:hover{transform:translateY(-2px);filter:brightness(1.03)} button:active{transform:translateY(4px);box-shadow:0 4px 0 rgba(0,0,0,.12)}
+    .app{max-width:1160px;margin:0 auto;padding:22px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .brand{display:flex;align-items:center;gap:12px}.logo{width:58px;height:58px;border-radius:20px;background:#fff;display:grid;place-items:center;font-size:34px;box-shadow:var(--shadow)}
+    h1{margin:0;font-size:clamp(28px,5vw,52px);line-height:1}.subtitle{color:var(--muted);font-weight:700;margin-top:5px}
+    .pill{background:#fff;border:3px solid #d7ecff;border-radius:999px;padding:10px 14px;font-weight:900;box-shadow:var(--shadow);white-space:nowrap}
+    .screen{display:none}.screen.active{display:block}.card{background:rgba(255,255,255,.92);border:4px solid #fff;border-radius:28px;box-shadow:var(--shadow);padding:24px}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}.hero h2{font-size:clamp(30px,5vw,58px);margin:0 0 10px}.hero p{font-size:20px;color:#475569;line-height:1.45}
+    .guide{background:linear-gradient(180deg,#fff,#e8f7ff);border-radius:28px;padding:18px;text-align:center;border:4px dashed #b9e2ff}.guide .face{font-size:120px;filter:drop-shadow(0 8px 0 rgba(0,0,0,.08))}.speech{background:#fff;border-radius:20px;padding:14px;font-weight:800;margin-top:10px}
+    .row{display:flex;flex-wrap:wrap;gap:12px}.primary{background:var(--blue);color:#fff}.secondary{background:var(--yellow);color:#3b2f00}.danger{background:var(--red);color:#fff}.good{background:var(--green);color:#fff}.purple{background:var(--purple);color:#fff}.plain{background:#eef6ff;color:#24415f;box-shadow:none;border:2px solid #d8ebff}
+    .levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.level{padding:20px;border-radius:24px;background:#fff;border:4px solid #e6f3ff;box-shadow:var(--shadow);cursor:pointer}.level:hover{transform:translateY(-3px)}.level h3{margin:0 0 8px;font-size:23px}.level .badge{font-size:34px}.stars{font-size:24px;color:#f6b800;letter-spacing:2px}
+    .gameGrid{display:grid;grid-template-columns:320px 1fr;gap:18px}.hud{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.hud .pill{box-shadow:none}
+    .stage{min-height:500px;position:relative;overflow:hidden}.question{font-size:25px;font-weight:900;margin:0 0 14px}.hint{min-height:32px;color:#b45309;font-weight:800;margin-top:10px}.feedback{font-size:22px;font-weight:1000;margin:12px 0}.ok{color:var(--green)}.bad{color:var(--red)}
+    .options{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.option{background:#fff;border:3px solid #d7eaff;box-shadow:0 6px 0 #c7dbef}.option.correct{background:#dff8e8;border-color:#7bd69b}.option.wrong{background:#ffe2e2;border-color:#ff9d9d}
+    .bodyWrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.bodySvg{width:100%;max-width:360px;margin:auto;display:block}.drop{fill:#f8fbff;stroke:#8fc5ef;stroke-width:3;stroke-dasharray:6 5}.targetLabel{font-weight:900;font-size:14px;fill:#31546f}.bone{cursor:grab;user-select:none}.bone text{font-weight:900;font-size:13px;fill:#24415f}.bone rect,.bone ellipse,.bone path{filter:drop-shadow(0 3px 0 rgba(0,0,0,.12))}.dragPanel{display:grid;gap:10px}.dragItem{background:#fff;border:3px solid #d7eaff;border-radius:18px;padding:12px;font-weight:900;cursor:grab;text-align:center;box-shadow:0 6px 0 #c7dbef}.dragItem.used{opacity:.35;pointer-events:none}.dropZone{min-height:56px;border:3px dashed #99c8ef;border-radius:18px;padding:12px;background:#f8fcff;font-weight:900}.dropZone.over{background:#e0f3ff}.dropZone.done{background:#dcfce7;border-color:#62c984;color:#166534}
+    .muscleMap{display:grid;grid-template-columns:1fr 1fr;gap:14px}.hotspot{cursor:pointer}.hotspot:hover{filter:brightness(1.12)}.legend{display:grid;gap:8px}.legend div{padding:10px;border-radius:14px;background:#f8fbff;font-weight:800}
+    .timer{height:14px;background:#e2e8f0;border-radius:999px;overflow:hidden}.timer span{display:block;height:100%;width:100%;background:linear-gradient(90deg,#27ae60,#f2c94c,#eb5757);transition:width .2s linear}
+    .stickers{display:flex;gap:10px;flex-wrap:wrap}.sticker{font-size:42px;background:#fff;border-radius:18px;padding:8px 12px;box-shadow:0 8px 0 rgba(0,0,0,.1)}
+    .dict{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.dict article{background:#fff;border:3px solid #e1efff;border-radius:20px;padding:14px}.dict h4{margin:0 0 6px;color:#1d4ed8}.small{font-size:14px;color:#64748b}.hidden{display:none!important}
+    @media (max-width:800px){.hero,.gameGrid,.bodyWrap,.muscleMap{grid-template-columns:1fr}.topbar{align-items:flex-start}.stage{min-height:auto}.guide .face{font-size:82px}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><div class="logo">🦴</div><div><h1>Misión Cuerpo Humano</h1><div class="subtitle">Science: huesos, músculos y movimiento</div></div></div>
+      <div class="pill" id="totalScore">⭐ 0 puntos</div>
+    </header>
+
+    <main id="menu" class="screen active">
+      <section class="card hero">
+        <div>
+          <h2>¡Bienvenido a la misión!</h2>
+          <p>Aprende el esqueleto y los músculos superando retos cortos. Arrastra huesos, identifica músculos, responde preguntas y gana medallas.</p>
+          <div class="row">
+            <button class="primary" onclick="showScreen('levels')">Jugar</button>
+            <button class="secondary" onclick="showScreen('dictionary')">Diccionario</button>
+            <button class="plain" onclick="toggleTimeMode()" id="timeBtn">⏱️ Contrarreloj: OFF</button>
+          </div>
+        </div>
+        <div class="guide"><div class="face">👩‍🔬</div><div class="speech">Soy la doctora Huesitos. Te daré pistas si te equivocas.</div></div>
+      </section>
+    </main>
+
+    <main id="levels" class="screen">
+      <section class="card">
+        <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:18px"><h2 style="margin:0">Selecciona nivel</h2><button class="plain" onclick="showScreen('menu')">← Menú</button></div>
+        <div class="levels" id="levelList"></div>
+      </section>
+    </main>
+
+    <main id="game" class="screen">
+      <div class="gameGrid">
+        <aside class="card">
+          <div class="guide"><div class="face" style="font-size:76px">💀</div><div class="speech" id="guideText">¡Vamos allá!</div></div>
+          <div style="height:14px"></div>
+          <div class="hud">
+            <div class="pill" id="levelName">Nivel</div>
+            <div class="pill" id="score">⭐ 0</div>
+            <div class="pill" id="step">Reto 1/4</div>
+          </div>
+          <div id="timerBox" class="hidden"><div class="small">Tiempo</div><div class="timer"><span id="timerBar"></span></div></div>
+          <div class="feedback" id="feedback"></div>
+          <div class="hint" id="hint"></div>
+          <div class="row"><button class="plain" onclick="showScreen('levels')">Salir</button><button class="purple" onclick="openReview()">Repasar errores</button></div>
+        </aside>
+        <section class="card stage" id="stage"></section>
+      </div>
+    </main>
+
+    <main id="results" class="screen">
+      <section class="card" style="text-align:center">
+        <h2 id="resultTitle">¡Nivel completado!</h2>
+        <p id="resultText" style="font-size:20px;color:#475569"></p>
+        <div class="stickers" id="stickers" style="justify-content:center;margin:18px 0"></div>
+        <div class="row" style="justify-content:center"><button class="primary" onclick="showScreen('levels')">Elegir otro nivel</button><button class="secondary" onclick="openReview()">Repasar errores</button><button class="plain" onclick="showScreen('menu')">Menú</button></div>
+      </section>
+    </main>
+
+    <main id="review" class="screen">
+      <section class="card">
+        <div class="row" style="justify-content:space-between;align-items:center"><h2 style="margin:0">Repaso de errores</h2><button class="plain" onclick="showScreen(lastScreen || 'levels')">Volver</button></div>
+        <div id="reviewList" style="margin-top:16px"></div>
+      </section>
+    </main>
+
+    <main id="dictionary" class="screen">
+      <section class="card">
+        <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:16px"><h2 style="margin:0">Diccionario rápido</h2><button class="plain" onclick="showScreen('menu')">← Menú</button></div>
+        <div class="dict" id="dictList"></div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const $=s=>document.querySelector(s);
+let state={score:0,level:null,i:0,errors:[],stars:{},timeMode:false,timer:null,timeLeft:30,lastScreen:'levels'};
+const levels=[
+ {id:'bones',title:'Nivel 1',desc:'Huesos fáciles',badge:'🦴',kind:'drag',tasks:[
+  {q:'Coloca estos huesos en el esqueleto incompleto.',items:['Cráneo','Costillas','Columna','Fémur'],hint:'Mira la forma: el cráneo va arriba, el fémur en la pierna.'}
+ ]},
+ {id:'muscles',title:'Nivel 2',desc:'Músculos fáciles',badge:'💪',kind:'muscle',tasks:[
+  {q:'Selecciona el bíceps.',answer:'Bíceps',hint:'Está en la parte delantera del brazo.'},
+  {q:'Selecciona los abdominales.',answer:'Abdominales',hint:'Están en el centro del tronco.'},
+  {q:'Selecciona el cuádriceps.',answer:'Cuádriceps',hint:'Está en la parte delantera del muslo.'},
+  {q:'Selecciona el tríceps.',answer:'Tríceps',hint:'Está en la parte trasera del brazo.'}
+ ]},
+ {id:'functions',title:'Nivel 3',desc:'Función de músculos y huesos',badge:'🧠',kind:'quiz',tasks:[
+  {q:'¿Para qué sirven principalmente los huesos?',opts:['Proteger órganos y sostener el cuerpo','Respirar aire','Digerir comida'],answer:'Proteger órganos y sostener el cuerpo',hint:'Piensa en las costillas protegiendo pulmones y corazón.'},
+  {q:'¿Qué hacen los músculos?',opts:['Ayudan al movimiento','Fabrican sangre siempre','Son dientes pequeños'],answer:'Ayudan al movimiento',hint:'Se contraen y relajan para mover partes del cuerpo.'},
+  {q:'¿Qué protege el cráneo?',opts:['El cerebro','El estómago','Los pies'],answer:'El cerebro',hint:'El cráneo es como un casco natural.'},
+  {q:'¿Qué hueso largo está en el muslo?',opts:['Fémur','Cráneo','Costilla'],answer:'Fémur',hint:'Es uno de los huesos más fuertes del cuerpo.'}
+ ]},
+ {id:'movement',title:'Nivel 4',desc:'Movimientos del cuerpo',badge:'🏃',kind:'quiz',tasks:[
+  {q:'¿Qué músculos ayudan mucho al saltar?',opts:['Cuádriceps y gemelos','Bíceps y mandíbula','Abdominales solamente'],answer:'Cuádriceps y gemelos',hint:'Para saltar usamos sobre todo las piernas.'},
+  {q:'Para doblar el brazo usamos principalmente...',opts:['Bíceps','Cuádriceps','Costillas'],answer:'Bíceps',hint:'El bíceps flexiona el codo.'},
+  {q:'Al levantar un brazo participan...',opts:['Músculos del hombro y huesos del brazo','Solo los dedos','El fémur'],answer:'Músculos del hombro y huesos del brazo',hint:'El hombro inicia gran parte del movimiento.'},
+  {q:'Al correr trabajan especialmente...',opts:['Piernas, cadera y tronco','Solo los ojos','Solo el cráneo'],answer:'Piernas, cadera y tronco',hint:'Correr coordina muchas partes del cuerpo.'}
+ ]},
+ {id:'final',title:'Nivel Final',desc:'Mezcla de todas las pruebas',badge:'🏅',kind:'mixed',tasks:[
+  {type:'quiz',q:'¿Qué músculo usamos para doblar el brazo?',opts:['Bíceps','Tríceps','Abdominales'],answer:'Bíceps',hint:'Está delante del brazo.'},
+  {type:'muscle',q:'Selecciona los abdominales.',answer:'Abdominales',hint:'Zona central del cuerpo.'},
+  {type:'quiz',q:'¿Qué protegen las costillas?',opts:['Corazón y pulmones','Rodillas','Dedos'],answer:'Corazón y pulmones',hint:'Forman la caja torácica.'},
+  {type:'drag',q:'Reto final: coloca los huesos.',items:['Cráneo','Costillas','Columna','Fémur'],hint:'Arriba, pecho, espalda y muslo.'}
+ ]}
+];
+const dictionary=[
+ ['Cráneo','Hueso que protege el cerebro.'],['Costillas','Huesos que forman la caja torácica y protegen corazón y pulmones.'],['Columna','Conjunto de vértebras que sostiene el cuerpo y protege la médula espinal.'],['Fémur','Hueso largo del muslo; ayuda a caminar, correr y saltar.'],['Bíceps','Músculo delantero del brazo; ayuda a doblar el codo.'],['Tríceps','Músculo trasero del brazo; ayuda a estirar el codo.'],['Abdominales','Músculos del tronco que ayudan a mantener postura y mover el cuerpo.'],['Cuádriceps','Músculos delanteros del muslo; ayudan a correr, saltar y levantarse.']
+];
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('#'+id).classList.add('active'); if(id!=='review') state.lastScreen=id; stopTimer(); renderTop();}
+function renderTop(){ $('#totalScore').textContent='⭐ '+state.score+' puntos'; }
+function init(){renderLevels();renderDict();renderTop();}
+function renderLevels(){ $('#levelList').innerHTML=levels.map(l=>`<div class="level" onclick="startLevel('${l.id}')"><div class="badge">${l.badge}</div><h3>${l.title}</h3><p>${l.desc}</p><div class="stars">${'★'.repeat(state.stars[l.id]||0)}${'☆'.repeat(3-(state.stars[l.id]||0))}</div></div>`).join('');}
+function renderDict(){ $('#dictList').innerHTML=dictionary.map(([a,b])=>`<article><h4>${a}</h4><p>${b}</p></article>`).join('');}
+function toggleTimeMode(){state.timeMode=!state.timeMode;$('#timeBtn').textContent='⏱️ Contrarreloj: '+(state.timeMode?'ON':'OFF');}
+function startLevel(id){state.level=levels.find(l=>l.id===id);state.i=0;$('#guideText').textContent='¡Concentración, explorador del cuerpo humano!';showScreen('game');renderTask();}
+function currentTask(){const l=state.level;return l.tasks[state.i];}
+function taskKind(t=currentTask()){return t.type||state.level.kind;}
+function renderTask(){stopTimer();const l=state.level,t=currentTask();$('#levelName').textContent=l.title;$('#score').textContent='⭐ '+state.score;$('#step').textContent='Reto '+(state.i+1)+'/'+l.tasks.length;$('#feedback').textContent='';$('#hint').textContent='';$('#guideText').textContent='Lee bien el reto. Si fallas, te doy una pista.'; const k=taskKind(t); if(k==='drag') renderDrag(t); if(k==='muscle') renderMuscle(t); if(k==='quiz') renderQuiz(t); if(state.timeMode) startTimer();}
+function renderQuiz(t){$('#stage').innerHTML=`<h2 class="question">${t.q}</h2><div class="options">${t.opts.map(o=>`<button class="option" onclick="answerQuiz(this,'${esc(o)}')">${o}</button>`).join('')}</div>`;}
+function answerQuiz(btn,val){const t=currentTask(); const ok=val===t.answer; btn.classList.add(ok?'correct':'wrong'); if(ok) success(); else fail(t);}
+function renderMuscle(t){$('#stage').innerHTML=`<h2 class="question">${t.q}</h2><div class="muscleMap"><svg class="bodySvg" viewBox="0 0 280 420" role="img" aria-label="Cuerpo humano con músculos"><circle cx="140" cy="45" r="28" fill="#ffd7b5"/><rect x="112" y="75" width="56" height="115" rx="26" fill="#ffd7b5"/><ellipse class="hotspot" data-name="Bíceps" onclick="answerMuscle('Bíceps')" cx="86" cy="128" rx="19" ry="49" fill="#ff8b61"/><ellipse class="hotspot" data-name="Tríceps" onclick="answerMuscle('Tríceps')" cx="194" cy="128" rx="19" ry="49" fill="#f25f5c"/><rect class="hotspot" data-name="Abdominales" onclick="answerMuscle('Abdominales')" x="118" y="112" width="44" height="76" rx="16" fill="#f7b267"/><ellipse class="hotspot" data-name="Cuádriceps" onclick="answerMuscle('Cuádriceps')" cx="115" cy="255" rx="25" ry="70" fill="#73d2de"/><ellipse class="hotspot" data-name="Cuádriceps" onclick="answerMuscle('Cuádriceps')" cx="165" cy="255" rx="25" ry="70" fill="#73d2de"/><rect x="100" y="325" width="30" height="74" rx="15" fill="#ffd7b5"/><rect x="150" y="325" width="30" height="74" rx="15" fill="#ffd7b5"/><text x="140" y="410" text-anchor="middle" font-weight="900">Haz clic en el músculo correcto</text></svg><div class="legend"><div style="border-left:14px solid #ff8b61">Bíceps</div><div style="border-left:14px solid #f25f5c">Tríceps</div><div style="border-left:14px solid #f7b267">Abdominales</div><div style="border-left:14px solid #73d2de">Cuádriceps</div></div></div>`;}
+function answerMuscle(name){const t=currentTask(); if(name===t.answer) success(); else fail(t);}
+function renderDrag(t){$('#stage').innerHTML=`<h2 class="question">${t.q}</h2><div class="bodyWrap"><svg class="bodySvg" viewBox="0 0 320 470"><circle class="drop" cx="160" cy="48" r="32"/><rect class="drop" x="111" y="98" width="98" height="76" rx="28"/><rect class="drop" x="147" y="80" width="26" height="150" rx="13"/><rect class="drop" x="122" y="235" width="34" height="135" rx="17"/><rect class="drop" x="164" y="235" width="34" height="135" rx="17"/><text class="targetLabel" x="160" y="52" text-anchor="middle">Cráneo</text><text class="targetLabel" x="160" y="139" text-anchor="middle">Costillas</text><text class="targetLabel" x="160" y="212" text-anchor="middle">Columna</text><text class="targetLabel" x="160" y="310" text-anchor="middle">Fémur</text></svg><div class="dragPanel"><div class="small">Arrastra cada tarjeta a su lugar:</div>${t.items.map(i=>`<div class="dragItem" draggable="true" data-item="${i}">${i}</div>`).join('')}<div class="dropZone" data-accept="Cráneo">Zona: cráneo</div><div class="dropZone" data-accept="Costillas">Zona: costillas</div><div class="dropZone" data-accept="Columna">Zona: columna</div><div class="dropZone" data-accept="Fémur">Zona: fémur</div></div></div>`; setupDnD();}
+function setupDnD(){let dragged=null;document.querySelectorAll('.dragItem').forEach(el=>{el.addEventListener('dragstart',e=>{dragged=el.dataset.item;e.dataTransfer.setData('text/plain',dragged)});});document.querySelectorAll('.dropZone').forEach(z=>{z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('over')});z.addEventListener('dragleave',()=>z.classList.remove('over'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('over');const item=e.dataTransfer.getData('text/plain')||dragged;if(item===z.dataset.accept){z.textContent='✅ '+item+' colocado';z.classList.add('done');document.querySelector(`.dragItem[data-item="${item}"]`)?.classList.add('used');if(document.querySelectorAll('.dropZone.done').length===4) success();}else fail(currentTask());});});}
+function success(){stopTimer();state.score+=10;$('#score').textContent='⭐ '+state.score;$('#feedback').textContent='✅ ¡Correcto! +10 puntos';$('#feedback').className='feedback ok';$('#guideText').textContent='¡Muy bien! Tu misión avanza.';beep(650,.12);setTimeout(nextTask,800);}
+function fail(t){$('#feedback').textContent='❌ Casi. Prueba otra vez.';$('#feedback').className='feedback bad';$('#hint').textContent='Pista: '+t.hint;$('#guideText').textContent='No pasa nada: los científicos aprenden probando.';beep(180,.18); if(!state.errors.some(e=>e.q===t.q)) state.errors.push({q:t.q,answer:t.answer||'Colocar cada hueso en su sitio',hint:t.hint});}
+function nextTask(){if(state.i<state.level.tasks.length-1){state.i++;renderTask();}else finishLevel();}
+function finishLevel(){stopTimer();const max=state.level.tasks.length*10;const gained=Math.min(max,state.score);const stars=state.errors.length===0?3:state.errors.length<=2?2:1;state.stars[state.level.id]=Math.max(state.stars[state.level.id]||0,stars);renderLevels();$('#resultTitle').textContent='¡Nivel completado!';$('#resultText').textContent=`Has completado ${state.level.title}: ${state.level.desc}. Medalla conseguida: ${stars} estrella${stars>1?'s':''}.`;$('#stickers').innerHTML=['🦴','💪','🧠'].slice(0,stars).map(s=>`<div class="sticker">${s}</div>`).join('');showScreen('results');}
+function openReview(){const list=$('#reviewList'); if(!state.errors.length){list.innerHTML='<p style="font-size:20px">Todavía no hay errores que repasar. ¡Buen trabajo!</p>';} else {list.innerHTML=state.errors.map(e=>`<article class="level"><h3>${e.q}</h3><p><b>Respuesta:</b> ${e.answer}</p><p><b>Pista:</b> ${e.hint}</p></article>`).join('');}showScreen('review');}
+function startTimer(){let total=30;state.timeLeft=total;$('#timerBox').classList.remove('hidden');$('#timerBar').style.width='100%';state.timer=setInterval(()=>{state.timeLeft-=.2;$('#timerBar').style.width=Math.max(0,state.timeLeft/total*100)+'%';if(state.timeLeft<=0){stopTimer();fail(currentTask());setTimeout(nextTask,900);}},200);}
+function stopTimer(){if(state.timer){clearInterval(state.timer);state.timer=null;}$('#timerBox')?.classList.add('hidden');}
+function beep(freq,dur){try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();const g=ctx.createGain();o.frequency.value=freq;o.connect(g);g.connect(ctx.destination);g.gain.value=.08;o.start();setTimeout(()=>{o.stop();ctx.close();},dur*1000);}catch(e){}}
+function esc(s){return String(s).replaceAll("'","\\'");}
+init();
+</script>
+</body>
+</html>
