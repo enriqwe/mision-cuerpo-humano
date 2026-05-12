@@ -1,21 +1,21 @@
-# Misión Cuerpo Humano
+# Human Body Mission
 
-Juego educativo en un único HTML para aprender Science: huesos, músculos, funciones y movimiento del cuerpo humano.
+An educational single-file HTML game for learning Science vocabulary: bones, muscles, body functions and movement.
 
-## Cómo jugar
+## How to play
 
-Abre `index.html` en cualquier navegador.
+Open `index.html` in any browser.
 
-Incluye:
+Includes:
 
-- Niveles cortos
-- Colocar huesos
-- Identificar músculos
-- Preguntas y retos
-- Modo contrarreloj
-- Puntos, estrellas y repaso de errores
-- Diccionario de huesos y músculos
+- Short levels
+- Bone placement challenges
+- Muscle identification
+- Questions and mixed challenges
+- Timer mode
+- Points, stars and mistake review
+- A quick bones-and-muscles dictionary
 
-## Publicación
+## Publishing
 
-Este repositorio está preparado para publicarse con GitHub Pages.
+This repository is ready to publish with GitHub Pages.
